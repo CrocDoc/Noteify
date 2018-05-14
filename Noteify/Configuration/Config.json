@@ -1,0 +1,5 @@
+﻿{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=localhost\\phpmyadmin;Database=Noteify;Trusted_Connection=False;UserID=root;Password=;MultipleActiveResultSets=true"
+  }
+}

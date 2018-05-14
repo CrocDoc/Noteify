@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Noteify.Configuration.Options;
 
 namespace Noteify
 {
@@ -22,6 +23,7 @@ namespace Noteify
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.Configure<Config>(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

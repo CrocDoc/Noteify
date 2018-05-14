@@ -14,11 +14,13 @@ namespace Noteify
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            var config = new ConfigurationBuilder().SetBasePath(Directory.GetDirectories(Directory.GetCurrentDirectory(),"Configuration*").First())
+                .AddJsonFile("Config.json").Build();
+            BuildWebHost(args, config).Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
+        public static IWebHost BuildWebHost(string[] args, IConfiguration configuration) =>
+            WebHost.CreateDefaultBuilder(args).UseConfiguration(configuration)
                 .UseStartup<Startup>()
                 .Build();
     }
