@@ -19,33 +19,82 @@ namespace Noteify.Models
         {
             this._config = config;
         }
+
+
         public void Create(User obj)
         {
-            using (SqlConnection conn = new SqlConnection(_config.Value.connectionStrings.DefaultConnection))
+            try
             {
-                string sqlCommand = "Insert into tb_Users (Username,Email,DateOfRegistration,IsActive) Values ({obj.Username},{obj.Email},{Datetime.Now},{true})";
+                using (SqlConnection conn = new SqlConnection(_config.Value.connectionStrings.DefaultConnection))
+                {
+                    string sqlCommand = "Insert into tb_Users (Username,Email,DateOfRegistration,IsActive) Values" +
+                        " (@Username,@Email,@DateOfRegistration,@IsActive)";
+
+                    conn.Open();
+                    conn.Execute(sqlCommand, new { Username = obj.Username, Email = obj.Email, DateOfRegistration = obj.DateOfRegistration, IsActive = obj.IsActive });
+                }
             }
-                throw new NotImplementedException();
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public User GetObjectByID(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(_config.Value.connectionStrings.DefaultConnection))
+                {
+                    string sqlCommand = "select * from tb_Users where id = @id";
+
+                    conn.Open();
+                    List<User> result = conn.Query<User>(sqlCommand).ToList();
+                    return result.FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         public List<User> GetObjects()
         {
-            throw new NotImplementedException();
-        }
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(_config.Value.connectionStrings.DefaultConnection))
+                {
+                    string sqlCommand = "select * from tb_Users";
 
-        public List<User> GetObjectsByIDs(List<int> ids)
-        {
-            throw new NotImplementedException();
+                    conn.Open();
+                    List<User> result = conn.Query<User>(sqlCommand).ToList();
+                    return result;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
-
+        
         public void Update(User obj)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(_config.Value.connectionStrings.DefaultConnection))
+                {
+                    string sqlCommand = "update tb_Users set Username = @Username, Email = @Email where id = @id";
+
+                    conn.Open();
+
+                    conn.Execute(sqlCommand, new { Username = obj.Username, Email = obj.Email });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }
